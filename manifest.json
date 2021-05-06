@@ -1,0 +1,51 @@
+{
+  "name": "Zest",
+  "author": {
+    "name": "JB Armanet",
+    "email": "jb@hellozest.io",
+    "url": "https://www.hellozest.io"
+  },
+  "version": "1.0.0",
+  "frameworkVersion": "2.0",
+  "defaultLocale": "en",
+  "private": false,
+  "singleInstall": true,
+  "domainWhitelist": [
+    "app.hellozest.io", 
+    "api.hellozest.io",
+    "app.hellozest.test", 
+    "zest.eu.ngrok.io"
+  ],
+  "parameters": [
+    {
+      "name":"team_slug",
+      "secure":true,
+      "type":"text",
+      "hidden":true
+    },
+    {
+      "name":"integration",
+      "secure":true,
+      "type":"number",
+      "hidden":true
+    }
+  ],
+  "location": {
+    "support": {
+      "ticket_sidebar": {
+        "signed": false,
+        "url": "https://app.hellozest.io/zendeskapp/support/ticket_sidebar",
+        "size": {
+          "height": "300px"
+        }
+      },
+      "ticket_editor": {
+        "url": "https://app.hellozest.io/zendeskapp/support/ticket_editor",
+        "size": {
+          "height": "285px",
+          "width": "370px"
+        }
+      }
+    }
+  }
+}
