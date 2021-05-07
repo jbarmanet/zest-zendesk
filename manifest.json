@@ -16,20 +16,6 @@
     "app.hellozest.test", 
     "zest.eu.ngrok.io"
   ],
-  "parameters": [
-    {
-      "name":"team_slug",
-      "secure":true,
-      "type":"text",
-      "hidden":true
-    },
-    {
-      "name":"integration",
-      "secure":true,
-      "type":"number",
-      "hidden":true
-    }
-  ],
   "location": {
     "support": {
       "ticket_sidebar": {
