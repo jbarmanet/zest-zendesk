@@ -57,120 +57,6 @@ class ZendeskController extends Controller
   }
   
   
-  /***** Not used so far, will be used to uninstall *****/
-  
-
-  public function uninstall(Request $request) {
-    if ($request->has('app_id')) {
-      if ($integration = Integration::where('name', 'zendesk')->where('identifier', $request->get('app_id'))->latest('updated_at')->first())
-      {
-        $user = $integration->team->owner;
-        $data = [
-          'name' => $integration->name
-        ];
-        event(new IntegrationEvent($integration, 'uninstall', $user, $data));
-      }
-      $deleted = Integration::where('name', 'zendesk')->where('identifier', $request->get('app_id'))->delete();
-    }
-    return response()->json('ok', 201);
-  }
-
-
-  /***** First-time Install *****/
-  
-  public function install(Request $request, $data=NULL)
-  {
-    // on doit arriver là-dessus forcément.
-    if ($data) {
-      if ($decoded = json_decode(base64_decode($data))) {
-        if ($decoded->subdomain && $decoded->appId && $decoded->installationId) {
-          session()->put('zd', $data);
-          session()->put('zendesk_subdomain', $decoded->subdomain);
-          session()->put('zendesk_appId', $decoded->appId);
-          session()->put('zendesk_installationId', $decoded->installationId);
-          session()->put('integration_type', 'zendesk');
-          session()->put('agent_email', '');
-          session()->put('agent_name', '');
-          session()->put('agent_timezone', '');
-          session()->put('brand_name', '');
-          session()->put('brand_logo', '');
-          if ($decoded->agent_email) {
-            session()->put('agent_email', $decoded->agent_email);
-          }
-          if ($decoded->agent_name) {
-            session()->put('agent_name', $decoded->agent_name);
-          }
-          if ($decoded->agent_timezone) {
-            session()->put('agent_timezone', $decoded->agent_timezone);
-          }
-          if ($decoded->brand_name) {
-            session()->put('brand_name', $decoded->brand_name);
-          }
-          if ($decoded->brand_logo) {
-            session()->put('brand_logo', $decoded->brand_logo);
-          }
-          // if ($decoded->assignee) {
-          //   session()->put('assignee', $decoded->assignee);
-          // }
-        }
-      }
-    }
-
-    // ensuite on commence par voir si on a un user, si oui on lance l'oauth
-    if ($this->user) {
-      $subdomain = session()->get('zendesk_subdomain', '');
-      if ($subdomain == '') {
-        return response('Zendesk subdomain Not Found', 403);
-      }
-      // if (session()->get('assignee', '') != '') {
-      //   $this->user->set_meta('zendesk_data', session()->get('assignee'));
-      // }
-      return redirect()->to('/zendesk/auth?subdomain='.$subdomain);
-    }
-    //dd("okokoko");
-    // sinon on vient du login
-    if ($request->has('email')) {
-      $email = $request->get('email');
-      session()->put('integration_email', $email);
-      session()->put('integration_type', 'zendesk');
-      $url = route('login');
-      if (!$user = User::where('email','like',$email)->first()) {
-        $url = route('letsgo');
-      }
-      return redirect($url);
-    }
-
-    $params = [
-      'details' => $decoded
-    ];
-    return view('integrations/zendesk/install', $params);
-  }
-
-  public function connect_success()
-  {
-    $this->forget_session();
-    return view('integrations/zendesk/connect_success');
-  }
-
-  public function connect_error()
-  {
-    $this->forget_session();
-    return view('integrations/zendesk/connect_error');
-  }
-
-  private function forget_session() {
-    session()->forget('zd');
-    session()->forget('zendesk_subdomain');
-    session()->forget('zendesk_appId');
-    session()->forget('zendesk_installationId');
-    session()->forget('agent_email');
-    session()->forget('integration_type');
-    session()->forget('agent_name');
-    session()->forget('agent_timezone');
-    session()->forget('brand_name');
-    session()->forget('brand_logo');
-    //session()->forget('assignee');
-  }
 
 
 
@@ -185,6 +71,7 @@ class ZendeskController extends Controller
     ];
     return view('integrations/zendesk/app', $params);
   }
+  
   public function support_ticket_editor(Request $request)
   {
     $params = [
@@ -193,14 +80,11 @@ class ZendeskController extends Controller
     ];
     return view('integrations/zendesk/app', $params);
   }
-  public function chat_ticket_sidebar(Request $request)
-  {
-    $params = [
-      'product' => 'chat',
-      'location' => 'ticket_sidebar'
-    ];
-    return view('integrations/zendesk/app', $params);
-  }
+  
+  
+  
+  /*********** API to Serve app ajax requests *******/ 
+  
 
   public function app_connect(Request $request) {
     if ($request->has('appId') && $request->has('subdomain') && $request->has('installationId')) {
