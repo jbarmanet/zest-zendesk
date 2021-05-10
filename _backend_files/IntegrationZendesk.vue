@@ -16,22 +16,30 @@
       <p>Actually you are using Zendesk with this role: <code>{{ agent_role }}</code>. You must use an <code>admin</code> role account the first time you connect with Zest.</p>
     </div>
     <div v-else-if="!is_registered && !has_zest_account" class="preStuff mt-6 mb-4">
-      <p>Sign in to your Zest account to complete installation</p>
-      <a class="button is-link mt-4" :href="login_url" target="_blank" @click="connectLinkClicked">
+      <p v-if="!signingin">Sign in to your Zest account to complete installation</p>
+      <a v-if="!signingin" class="button is-link mt-4" :href="login_url" target="_blank" @click="connectLinkClicked">
         <span>Sign in</span>
         <span class="icon is-small">
           <v-icon name="external-link" style="width:17px;height:17px;"></v-icon>
         </span>
       </a>
+      <div v-else class="refresh text-center has-background-white">
+        <p>Refresh your browser once Zendesk is successfully connected to your Zest account.</p>
+        <p><img src="/img/zendesk-refresh.png" width="220" /></p>
+      </div>
     </div>
     <div v-else-if="!is_registered && has_zest_account && !has_zest_integration" class="preStuff mt-6 mb-4">
-      <p>You must terminate installation by connecting Zendesk to your Zest account</p>
-      <a class="button is-link mt-4" :href="login_url" target="_blank" @click="connectLinkClicked">
+      <p v-if="!signingin">You must terminate installation by connecting Zendesk to your Zest account</p>
+      <a v-if="!signingin" class="button is-link mt-4" :href="login_url" target="_blank" @click="connectLinkClicked">
         <span>Connect</span>
         <span class="icon is-small">
           <v-icon name="external-link" style="width:17px;height:17px;"></v-icon>
         </span>
       </a>
+      <div v-else class="refresh text-center has-background-white">
+        <p>Refresh your browser once Zendesk is successfully connected to your Zest account.</p>
+        <p><img src="/img/zendesk-refresh.png" width="220" /></p>
+      </div>
     </div>
 
     <div v-else class="stuffContainer">
@@ -107,14 +115,18 @@
             </div>
           </a>
 
-          <a :href="send_recording_url" title="Record a video and share it with the user" class="action record py-3"  v-if="Object.keys(requester).length > 0"
+          <a :href="send_recording_url"
+            title="Record a video and share it with the user"
+            :class="!show_error_send ? 'action record py-3' : 'action record py-3 error_send has-background-warning'"
+            v-if="Object.keys(requester).length > 0"
             target="_blank"
-            :style="ticket.id ? '' : 'opacity:0.5'" @click="send_a_recording">
-            <div class="block" v-if="ticket.id">
+            :style="ticket.id || show_error_send ? '' : 'opacity:0.5'"
+            @click="send_a_recording">
+            <div class="block" v-if="!show_error_send">
               <strong>Record a video and share it with the user</strong>
             </div>
-            <div class="block" v-else>
-              <span class="">You must save the ticket before sending a video</span>
+            <div class="tag is-warning mx-auto" v-else>
+              <span class="">You must submit the ticket before using this action</span>
             </div>
           </a>
 
@@ -172,7 +184,12 @@ export default {
   },
 
   beforeDestroy() {
-    clearTimeout(this.test_loop);
+    if (this.test_loop) {
+      clearTimeout(this.test_loop);
+    }
+    if (this.show_error_send_timer) {
+      clearTimeout(this.show_error_send_timer);
+    }
   },
 
   data() {
@@ -188,6 +205,10 @@ export default {
       team_slugname: "",
       integration_id: 0,
       subdomain: "",
+
+      signingin: false,
+      show_error_send: false,
+      show_error_send_timer: "",
 
       agent: {},
       requester: {},
@@ -380,14 +401,14 @@ export default {
 
       if (this.ticket.comment.useRichText == true) {
         var html = '<p>';
-        html += '<a href="' + the_link + '" title="Please record your screen">';
-        html += '<img src="' + the_image + '" width="40" />';
-        html += '</a>';
+        //html += '<a href="' + the_link + '" title="Please record your screen">';
+        //html += '<img src="' + the_image + '" width="40" />';
+        //html += '</a>';
         //html += '<br />';
         html += '<a href="' + the_link + '" title="Please record your screen">';
-        html += 'Click here to record your screen';
+        html += 'Click here to record your screen.';
         html += '</a>';
-        html += '</p>';
+        html += '<br /></p>';
         result = insertCommentHtml(html);
       } else {
         var text = "Click on this link to record your screen: "+the_link;
@@ -404,6 +425,11 @@ export default {
     {
       if (!this.ticket.id) {
         event.preventDefault();
+        clearTimeout(this.show_error_send_timer);
+        this.show_error_send = true;
+        this.show_error_send_timer = setTimeout(function(){
+          this.show_error_send = false;
+        }.bind(this), 3000);
       }
       this.send_recording_loading = false;
     },
@@ -568,8 +594,9 @@ export default {
       return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     },
     connectLinkClicked: function(e) {
-      this.should_test_in_loop = true;
-      this.connection_test();
+      this.signingin = true;
+      //this.should_test_in_loop = true;
+      //this.connection_test();
     },
     connection_test: function() {
 
@@ -852,6 +879,12 @@ export default {
   a.action.record {
     background-image:url('/img/intercom_button_send.png');
   }
+
+  a.action.record.error_send {
+    background-image:none;
+    padding-left: 0;
+  }
+
 
   a.action.help {
     color: #425DF2;
