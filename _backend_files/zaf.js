@@ -164,4 +164,34 @@ export const onTicketSubmitStart = (callback) => {
 
 
 
+
+
+
+// appId: "79919bd6-c947-426c-81e7-3c9bdcbe57da"
+// installationId: "b3d279a3-7964-406e-802d-edbe2795db26"
+
+
+// export const setParam = () => {
+//   return zafClient.set({'metadata.settings': {'integration':8,'team_slug':'yoyo'}}).then((data) => {
+//     console.log(data);
+//   })
+// }
+// client.set({ 'ticket.subject': 'Printer Overheating Incident', 'ticket.type': 'incident' }).then(function(data) {
+//   console.log(data); // { 'ticket.subject': 'Printer Overheating Incident', 'ticket.type': 'incident' }
+// });
+
+// client.invoke('resize', { width: '100%', height: '200px' });
+//
+// client.metadata().then(function(metadata) {
+//   console.log(metadata.settings);
+//   if (!metadata.settings.team_slug) {
+//     console.log("pas de team slug")
+//   }
+//   if (!metadata.settings.integration) {
+//     console.log("pas d'integration")
+//   }
+// });
+
+
+
 //console.log("ZAF Loaded")

@@ -2,3 +2,7 @@
 
 Zest App for Zendesk.
 
+Run zcli apps:server 
+
+
+

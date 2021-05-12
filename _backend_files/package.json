@@ -1,0 +1,47 @@
+{
+  "private": true,
+  "scripts": {
+    "development": "mix",
+    "watch": "mix watch",
+    "watch-poll": "mix watch -- --watch-options-poll=1000",
+    "hot": "mix watch --hot",
+    "production": "mix --production"
+  },
+  "dependencies": {
+    "axios": "^0.18",
+    "bootstrap": "^4.5.2",
+    "bootstrap-colorpicker": "^3.2.0",
+    "bootstrap-vue": "^2.17.3",
+    "cross-env": "^5.2.1",
+    "debounce": "^1.2.1",
+    "dinero.js": "^1.6.0",
+    "emoji-mart-vue-fast": "^7.0.4",
+    "jquery": "^3.2",
+    "laravel-mix": "^6.0.13",
+    "lodash": "^4.17.4",
+    "moment-timezone": "^0.5.31",
+    "popper.js": "^1.12",
+    "promise": "^7.1.1",
+    "resolve-url-loader": "3.1.0",
+    "rtlcss": "^2.2",
+    "sass": "^1.22.5",
+    "sass-loader": "7.*",
+    "sweetalert2": "^8.13.6",
+    "urijs": "^1.17.0",
+    "vue": "^2.6.12",
+    "vue-clipboard2": "^0.3.1",
+    "vue-i18n": "^8.24.2",
+    "vue-icon": "^2.1.2",
+    "vue-infinite-loading": "^2.4.5",
+    "vue-moment": "^4.1.0",
+    "vue-template-compiler": "^2.6.10",
+    "vue-videojs7": "^0.1.5",
+    "zendesk_app_framework_sdk": "^2.0.11"
+  },
+  "devDependencies": {
+    "@intlify/vue-i18n-loader": "^2.0.3",
+    "postcss": "^8.2.8",
+    "vue-loader": "^15.9.6",
+    "webpack": "^5.28.0"
+  }
+}

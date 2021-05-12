@@ -5,17 +5,11 @@
     "email": "support@hellozest.io",
     "url": "https://www.hellozest.io"
   },
-  "version": "1.0.1",
+  "version": "1.0.0",
   "frameworkVersion": "2.0",
   "defaultLocale": "en",
   "private": false,
   "singleInstall": true,
-  "domainWhitelist": [
-    "app.hellozest.io", 
-    "api.hellozest.io",
-    "app.hellozest.test", 
-    "zest.eu.ngrok.io"
-  ],
   "location": {
     "support": {
       "ticket_sidebar": {
