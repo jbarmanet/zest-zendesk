@@ -1,11 +1,11 @@
 {
-  "name": "Zest",
+  "name": "Screen Recording by Zest",
   "author": {
     "name": "Zest Team",
     "email": "support@hellozest.io",
     "url": "https://www.hellozest.io"
   },
-  "version": "1.0.0",
+  "version": "1.0.8",
   "frameworkVersion": "2.0",
   "defaultLocale": "en",
   "private": false,
@@ -25,6 +25,11 @@
           "height": "285px",
           "width": "370px"
         }
+      }
+    },
+    "chat": {
+      "chat_sidebar": {
+        "url": "https://app.hellozest.io/zendeskapp/support/chat_sidebar"
       }
     }
   }
