@@ -1,9 +1,9 @@
 {
-  "name": "Screen Recording by Zest",
+  "name": "Screen Recording by Birdie",
   "author": {
-    "name": "Zest Team",
-    "email": "support@hellozest.io",
-    "url": "https://www.hellozest.io"
+    "name": "Birdie Team",
+    "email": "support@birdie.so",
+    "url": "https://www.birdie.so"
   },
   "version": "1.0.8",
   "frameworkVersion": "2.0",
@@ -14,13 +14,13 @@
     "support": {
       "ticket_sidebar": {
         "signed": false,
-        "url": "https://app.hellozest.io/zendeskapp/support/ticket_sidebar",
+        "url": "https://app.birdie.so/zendeskapp/support/ticket_sidebar",
         "size": {
           "height": "300px"
         }
       },
       "ticket_editor": {
-        "url": "https://app.hellozest.io/zendeskapp/support/ticket_editor",
+        "url": "https://app.birdie.so/zendeskapp/support/ticket_editor",
         "size": {
           "height": "285px",
           "width": "370px"
@@ -29,7 +29,7 @@
     },
     "chat": {
       "chat_sidebar": {
-        "url": "https://app.hellozest.io/zendeskapp/support/chat_sidebar"
+        "url": "https://app.birdie.so/zendeskapp/support/chat_sidebar"
       }
     }
   }
